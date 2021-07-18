@@ -1,6 +1,7 @@
 package com.luisruiz.moviebuddy.rest
 
 import com.luisruiz.moviebuddy.model.Movie
+import com.luisruiz.moviebuddy.model.NowPlaying
 import retrofit2.Call
 import retrofit2.Retrofit
 
@@ -14,5 +15,9 @@ class Repository {
 
     fun getMovie(id: String): Call<Movie> {
         return retrofitService.getMovie(id)
+    }
+
+    fun getNowPlaying(): Call<NowPlaying> {
+        return retrofitService.getNowPlaying()
     }
 }

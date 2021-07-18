@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.luisruiz.moviebuddy.databinding.FragmentHomeBinding
 import com.luisruiz.moviebuddy.model.Movie
+import com.luisruiz.moviebuddy.model.NowPlaying
 import com.luisruiz.moviebuddy.rest.MainViewModel
 import com.luisruiz.moviebuddy.viewmodelfactory.ViewModelFactory
 
@@ -36,6 +37,8 @@ class HomeFragment : Fragment() {
 
         // Attempt to get a Movie from the API.
         this.mainViewModel.getMovie("550")
+
+        this.mainViewModel.getNowPlaying()
     }
 
     override fun onCreateView(
@@ -52,7 +55,7 @@ class HomeFragment : Fragment() {
         this.tvHome = binding.tvHome
 
         // Observe the LiveData.
-        initObservation()
+        initObservations()
 
         /*homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
@@ -78,14 +81,22 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun initObservation() {
+    private fun initObservations() {
 
         // Create the observer.
-        val observer: Observer<Movie> = Observer<Movie> { movie ->
+        /*val observer: Observer<Movie> = Observer<Movie> { movie ->
             this.tvHome.text = movie.title
+        }*/
+
+        val observer2 = Observer<NowPlaying> { nowPlaying ->
+
+            val foo = mutableListOf<Movie>(nowPlaying.results[0], nowPlaying.results[1], nowPlaying.results[2])
+
+            this.tvHome.text = foo.toString()
         }
 
         // Observe the LiveData.
-        this.mainViewModel.movieLiveData.observe(viewLifecycleOwner, observer)
+        //this.mainViewModel.movieLiveData.observe(viewLifecycleOwner, observer)
+        this.mainViewModel.nowPlayingLiveData.observe(viewLifecycleOwner, observer2)
     }
 }
